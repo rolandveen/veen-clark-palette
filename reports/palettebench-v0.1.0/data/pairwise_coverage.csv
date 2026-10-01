@@ -1,0 +1,6 @@
+palette,palette_index,condition,baseline_pair_count,candidate_pair_count,matched_pair_count,union_pair_count,baseline_coverage_fraction,candidate_coverage_fraction,jaccard_pair_fraction,baseline_only_pair_count,candidate_only_pair_count
+Veen-Clark candidate v0.1,1,normal,28,28,28,28,1.0,1.0,1.0,0,0
+Veen-Clark candidate v0.1,1,protan100,28,28,28,28,1.0,1.0,1.0,0,0
+Veen-Clark candidate v0.1,1,deutan100,28,28,28,28,1.0,1.0,1.0,0,0
+Veen-Clark candidate v0.1,1,tritan100,28,28,28,28,1.0,1.0,1.0,0,0
+Veen-Clark candidate v0.1,1,grayscale,28,28,28,28,1.0,1.0,1.0,0,0

@@ -1,0 +1,13 @@
+cff-version: 1.2.0
+message: "If you use this candidate palette, please cite this repository and its Okabe-Ito and Wong provenance."
+title: "Veen-Clark palette"
+type: software
+version: 0.1.0-candidate.1
+date-released: 2026-10-01
+authors:
+  - family-names: Veen
+    given-names: Roland J.
+  - family-names: Clark
+    given-names: Charlie
+repository-code: "https://github.com/rolandveen/veen-clark-palette"
+license: BSD-3-Clause

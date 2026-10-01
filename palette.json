@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "name": "Veen-Clark candidate v0.1",
+  "slug": "veen-clark",
+  "version": "0.1.0-candidate.1",
+  "status": "candidate",
+  "colors": [
+    {
+      "name": "orange",
+      "display_name": "Orange",
+      "hex": "#E69F00",
+      "rgb": [
+        230,
+        159,
+        0
+      ]
+    },
+    {
+      "name": "sky_blue",
+      "display_name": "Sky blue",
+      "hex": "#7CC7F2",
+      "rgb": [
+        124,
+        199,
+        242
+      ],
+      "group": "blue_family"
+    },
+    {
+      "name": "bluish_green",
+      "display_name": "Bluish green",
+      "hex": "#009E73",
+      "rgb": [
+        0,
+        158,
+        115
+      ]
+    },
+    {
+      "name": "yellow",
+      "display_name": "Yellow",
+      "hex": "#F0E442",
+      "rgb": [
+        240,
+        228,
+        66
+      ]
+    },
+    {
+      "name": "blue",
+      "display_name": "Blue",
+      "hex": "#005A8D",
+      "rgb": [
+        0,
+        90,
+        141
+      ],
+      "group": "blue_family"
+    },
+    {
+      "name": "vermillion",
+      "display_name": "Vermillion",
+      "hex": "#D55E00",
+      "rgb": [
+        213,
+        94,
+        0
+      ]
+    },
+    {
+      "name": "reddish_purple",
+      "display_name": "Reddish purple",
+      "hex": "#CC79A7",
+      "rgb": [
+        204,
+        121,
+        167
+      ]
+    },
+    {
+      "name": "black",
+      "display_name": "Black",
+      "hex": "#000000",
+      "rgb": [
+        0,
+        0,
+        0
+      ]
+    }
+  ]
+}
