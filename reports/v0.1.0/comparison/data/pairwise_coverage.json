@@ -1,0 +1,72 @@
+[
+  {
+    "palette": "Veen-Clark palette",
+    "palette_index": 1,
+    "condition": "normal",
+    "baseline_pair_count": 28,
+    "candidate_pair_count": 28,
+    "matched_pair_count": 28,
+    "union_pair_count": 28,
+    "baseline_coverage_fraction": 1.0,
+    "candidate_coverage_fraction": 1.0,
+    "jaccard_pair_fraction": 1.0,
+    "baseline_only_pair_count": 0,
+    "candidate_only_pair_count": 0
+  },
+  {
+    "palette": "Veen-Clark palette",
+    "palette_index": 1,
+    "condition": "protan100",
+    "baseline_pair_count": 28,
+    "candidate_pair_count": 28,
+    "matched_pair_count": 28,
+    "union_pair_count": 28,
+    "baseline_coverage_fraction": 1.0,
+    "candidate_coverage_fraction": 1.0,
+    "jaccard_pair_fraction": 1.0,
+    "baseline_only_pair_count": 0,
+    "candidate_only_pair_count": 0
+  },
+  {
+    "palette": "Veen-Clark palette",
+    "palette_index": 1,
+    "condition": "deutan100",
+    "baseline_pair_count": 28,
+    "candidate_pair_count": 28,
+    "matched_pair_count": 28,
+    "union_pair_count": 28,
+    "baseline_coverage_fraction": 1.0,
+    "candidate_coverage_fraction": 1.0,
+    "jaccard_pair_fraction": 1.0,
+    "baseline_only_pair_count": 0,
+    "candidate_only_pair_count": 0
+  },
+  {
+    "palette": "Veen-Clark palette",
+    "palette_index": 1,
+    "condition": "tritan100",
+    "baseline_pair_count": 28,
+    "candidate_pair_count": 28,
+    "matched_pair_count": 28,
+    "union_pair_count": 28,
+    "baseline_coverage_fraction": 1.0,
+    "candidate_coverage_fraction": 1.0,
+    "jaccard_pair_fraction": 1.0,
+    "baseline_only_pair_count": 0,
+    "candidate_only_pair_count": 0
+  },
+  {
+    "palette": "Veen-Clark palette",
+    "palette_index": 1,
+    "condition": "grayscale",
+    "baseline_pair_count": 28,
+    "candidate_pair_count": 28,
+    "matched_pair_count": 28,
+    "union_pair_count": 28,
+    "baseline_coverage_fraction": 1.0,
+    "candidate_coverage_fraction": 1.0,
+    "jaccard_pair_fraction": 1.0,
+    "baseline_only_pair_count": 0,
+    "candidate_only_pair_count": 0
+  }
+]

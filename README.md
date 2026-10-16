@@ -5,9 +5,8 @@ figures by Roland J. Veen and Charlie Clark. The palette preserves five
 Okabe–Ito colours and updates yellow to `#F5E600`. It separates two related
 subgroups by making sky blue lighter and blue darker.
 
-> **Version 0.1.0:** candidate 2, including the updated yellow, was approved on
-> 16 October 2026. Computational evaluation is condition-specific; the palette
-> has not been validated in a controlled participant study.
+**Version 0.1.0.** Computational evaluation is condition-specific. The palette
+has not been validated in a controlled participant study.
 
 ## Colours
 
@@ -41,21 +40,40 @@ Ready-to-copy definitions are generated in [`exports/`](exports/) for:
 [`palettes/veen-clark.yaml`](palettes/veen-clark.yaml) is
 the sole authoritative definition and the direct PaletteBench input.
 [`palette.json`](palette.json) and every file in `exports/` are generated from
-that YAML. Install the small validation environment, regenerate derived files,
-and run consistency tests with:
+that YAML. You can copy the definitions without installing PaletteBench.
+For example, from the repository root in Python:
 
-```bash
-python3 -m pip install -r requirements-dev.txt
-python3 tools/generate_exports.py
-python3 -m unittest discover -s tests
+```python
+from exports.veen_clark import HEX, NAMES
+colours = dict(zip(NAMES, HEX))
 ```
 
-GitHub Actions repeats these checks, rejects stale generated files, and
-smoke-tests the example renderer on every push and pull request.
+Generation and validation require no AI service or API key.
+Use Python 3.12 and Git:
+
+```bash
+python3 -m venv .venv
+.venv/bin/python -m pip install -r requirements-dev.txt
+.venv/bin/python tools/rebuild_all.py --check
+```
+
+On Windows, replace `.venv/bin/python` with `.venv\Scripts\python.exe`.
+To rebuild exports, examples, both evaluations and the PDF from the YAML:
+
+```bash
+.venv/bin/python tools/rebuild_all.py
+```
+
+The rebuild stages and validates outputs before replacing the listed generated
+files. `--check` validates the committed artifacts without regenerating the
+analyses: input hashes, exports, report metrics, local README links, and PDF
+content and deterministic assembly. It does not compare figure pixels across
+platforms. See [reproducibility](docs/reproducibility.md) and
+[contributing](CONTRIBUTING.md) for details.
 
 ## PaletteBench evaluation
 
-The released palette was evaluated as candidate 2 and compared directly with the bundled Okabe–Ito baseline using
+The palette is compared directly with the bundled Okabe–Ito baseline using
 [PaletteBench v0.1.0](https://github.com/rolandveen/palettebench/tree/v0.1.0).
 PaletteBench reports condition-specific CIEDE2000 separation under normal
 vision, simulated protan/deutan/tritan colour-vision deficiencies, and
@@ -64,9 +82,9 @@ grayscale. Results are reported separately for each condition.
 The committed evaluation artifacts are generated with:
 
 ```bash
-palettebench compare --okabe-ito-baseline \
-  palettes/veen-clark-candidate-2.yaml \
-  --output /tmp/veen-clark-comparison
+.venv/bin/python -m palettebench compare --okabe-ito-baseline \
+  palettes/veen-clark.yaml \
+  --output tmp/comparison
 ```
 
 The report, exact input copies, hashes, configuration, dependency versions,
@@ -79,9 +97,9 @@ A single paginated report containing the baseline comparison, CVD overview,
 grayscale, severity progressions, heatmaps, all four diagonal split pair
 matrices, grouped-blue analysis, and limitations is available as
 [`output/pdf/veen-clark-palette-0.1.0-report.pdf`](output/pdf/veen-clark-palette-0.1.0-report.pdf).
-Rebuild it with `python3 tools/build_pdf_report.py`.
+Rebuild it with `.venv/bin/python tools/build_pdf_report.py`.
 
-### First computational result
+### Computational results
 
 For the intended blue subgroup pair, PaletteBench reports an increase in
 modelled separation from ΔE00 22.31 to 37.92 under normal vision. The increase
@@ -89,21 +107,21 @@ persists under the standard simulations: 20.75 to 36.03 (protan 100%), 22.45
 to 38.57 (deutan 100%), 19.95 to 35.08 (tritan 100%), and 21.62 to 37.43 in
 grayscale. Other colour pairs show smaller increases or decreases in separation.
 
-Relative to Okabe–Ito, the candidate raises the 10th-percentile separation under normal
+Relative to Okabe–Ito, the palette raises the 10th-percentile separation under normal
 vision by 2.73 and the minimum under protan 100% by 3.56, while some individual
 pairs lose separation—most notably blue/vermillion under tritan 100% (−12.20)
 and blue/black under the reported conditions. See the
-[`PaletteBench comparison report`](reports/veen-clark-candidate-2-comparison/report.md) for all pairwise changes.
+[`PaletteBench comparison report`](reports/v0.1.0/comparison/report.md) for all pairwise changes.
 
-The revised yellow was motivated by informal presentation feedback, rather than a
-controlled study. The archived [candidate 2 comparison](reports/veen-clark-candidate-2-comparison/report.md)
-and [audit](reports/veen-clark-candidate-2-audit/) retain their original inputs and hashes.
-Release metadata maps those unchanged colour values to version 0.1.0 in
-[the release record](docs/releases/0.1.0.md).
+The yellow choice was motivated by informal presentation feedback, rather than a
+controlled study. Its comparisons with orange and bluish green and its contrast
+against white are included in the PDF. The [comparison](reports/v0.1.0/comparison/report.md)
+and [audit](reports/v0.1.0/audit/report.md) contain exact release input copies and
+record their hashes. See the [version notes](docs/releases/0.1.0.md).
 
 ## Plot examples
 
-![The candidate blues used for related subgroups in scatter and bar charts](examples/blue-subgroups.svg)
+![The two blues used for related subgroups in scatter and bar charts](examples/blue-subgroups.svg)
 
 Both subgroups use circular markers and solid bar fills. The example uses
 synthetic data to illustrate the colours; it is not a test of discriminability.

@@ -1,0 +1,4 @@
+*.pdf binary
+*.png binary
+# Matplotlib emits trailing spaces within SVG path data.
+*.svg -whitespace

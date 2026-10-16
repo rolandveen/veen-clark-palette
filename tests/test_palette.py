@@ -1,4 +1,10 @@
+import csv
+import hashlib
 import importlib.util
+import re
+import subprocess
+import sys
+import tempfile
 import json
 import unittest
 from pathlib import Path
@@ -73,21 +79,112 @@ class PaletteTest(unittest.TestCase):
                 self.assertIn(color["hex"], text, path.name)
 
     def test_committed_report_uses_current_authoritative_input(self):
-        """Verify release colours against hashed candidate 2 evaluation inputs."""
-        import hashlib
-        source = ROOT / "palettes" / "veen-clark-candidate-2.yaml"
-        candidate = yaml.safe_load(source.read_text(encoding="utf-8"))
-        self.assertEqual(self.source["colors"], candidate["colors"])
-        self.assertEqual(self.source["version"], "0.1.0")
-        self.assertEqual(self.source["status"], "released")
-        for folder in ("veen-clark-candidate-2-audit", "veen-clark-candidate-2-comparison"):
-            report = ROOT / "reports" / folder
+        """Require exact current inputs and honest archive provenance."""
+        source = ROOT / "palettes" / "veen-clark.yaml"
+        for folder in ("audit", "comparison"):
+            report = ROOT / "reports" / "v0.1.0" / folder
             metadata = json.loads((report / "metadata.json").read_text())
+            matched = []
             for item in metadata["inputs"]:
                 archived = report / item["copied_file"]
                 self.assertEqual(hashlib.sha256(archived.read_bytes()).hexdigest(), item["sha256"])
-                if "candidate-2" in archived.name:
+                if archived.name.endswith("-veen-clark.yaml"):
                     self.assertEqual(source.read_bytes(), archived.read_bytes())
+                    matched.append(item)
+            self.assertEqual(len(matched), 1)
+            self.assertEqual(metadata["palettebench_version"], "0.1.0")
+            self.assertEqual(metadata["configuration"]["severities"], [20, 40, 60, 80, 100])
+            if folder == "audit":
+                self.assertEqual(metadata["input_sha256"], matched[0]["sha256"])
+
+    def test_report_metrics_agree(self):
+        """Cross-check full audit, comparison, pair coverage and summary minima."""
+        def rows(path):
+            with path.open(encoding="utf-8", newline="") as stream:
+                return list(csv.DictReader(stream))
+        reports = ROOT / "reports" / "v0.1.0"
+        audit = rows(reports / "audit/data/pairwise.csv")
+        indexed = {(r["condition"], r["colour1"], r["colour2"]): r for r in audit}
+        self.assertEqual(len(indexed), 13 * 28)
+        changes = rows(reports / "comparison/data/pairwise_changes.csv")
+        self.assertEqual(len(changes), len(indexed))
+        self.assertEqual({(r["condition"], r["colour1"], r["colour2"]) for r in changes}, set(indexed))
+        for row in changes:
+            expected = float(indexed[row["condition"], row["colour1"], row["colour2"]]["delta_e_00"])
+            self.assertAlmostEqual(float(row["palette_delta_e_00"]), expected, places=10)
+            self.assertAlmostEqual(float(row["change_from_baseline"]),
+                                   expected - float(row["baseline_delta_e_00"]), places=10)
+        summary = rows(reports / "audit/data/summary.csv")
+        self.assertEqual({r["condition"] for r in summary}, {r["condition"] for r in audit})
+        for row in summary:
+            values = [float(r["delta_e_00"]) for r in audit if r["condition"] == row["condition"]]
+            self.assertEqual(len(values), 28)
+            self.assertAlmostEqual(float(row["minimum"]), min(values), places=10)
+            self.assertAlmostEqual(float(row["mean"]), sum(values) / len(values), places=10)
+        for row in rows(reports / "comparison/data/comparison.csv"):
+            if row["palette_index"] == "1":
+                matching = next(r for r in summary if r["condition"] == row["condition"])
+                for field in ("minimum", "mean", "median", "q10"):
+                    self.assertAlmostEqual(float(row[field]), float(matching[field]), places=10)
+
+    def test_readme_metrics_match_reports(self):
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+        path = ROOT / "reports/v0.1.0/comparison/data/pairwise_changes.csv"
+        with path.open(newline="", encoding="utf-8") as stream:
+            pairs = list(csv.DictReader(stream))
+        for row in pairs:
+            if row["condition"] in ("normal", "protan100", "deutan100", "tritan100", "grayscale"):
+                if {row["colour1"], row["colour2"]} == {"sky_blue", "blue"}:
+                    for key in ("baseline_delta_e_00", "palette_delta_e_00"):
+                        self.assertIn(f"{float(row[key]):.2f}", readme)
+                if row["condition"] == "tritan100" and {row["colour1"], row["colour2"]} == {"blue", "vermillion"}:
+                    self.assertIn(f"{float(row['change_from_baseline']):.2f}".replace("-", "−"), readme)
+        with (ROOT / "reports/v0.1.0/comparison/data/comparison.csv").open(newline="", encoding="utf-8") as stream:
+            summaries = list(csv.DictReader(stream))
+        for condition, field in (("normal", "q10_change_from_baseline"),
+                                 ("protan100", "minimum_change_from_baseline")):
+            row = next(r for r in summaries if r["palette_index"] == "1" and r["condition"] == condition)
+            self.assertIn(f"{float(row[field]):.2f}", readme)
+
+    def test_all_exports_are_fresh(self):
+        spec = importlib.util.spec_from_file_location("generator", ROOT / "tools/generate_exports.py")
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        with tempfile.TemporaryDirectory() as temporary:
+            module.ROOT = Path(temporary)
+            module.EXPORTS = module.ROOT / "exports"
+            module.main()
+            for path in [module.ROOT / "palette.json", *module.EXPORTS.iterdir()]:
+                self.assertEqual(path.read_bytes(), (ROOT / path.relative_to(module.ROOT)).read_bytes())
+
+    def test_readme_links_resolve(self):
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+        for target in re.findall(r"\]\(([^)]+)\)", readme):
+            if "://" not in target and not target.startswith("#"):
+                self.assertTrue((ROOT / target.split("#")[0]).exists(), target)
+
+    def test_report_structure_and_rebuild(self):
+        from pypdf import PdfReader
+        committed = ROOT / "output/pdf/veen-clark-palette-0.1.0-report.pdf"
+        reader = PdfReader(committed)
+        self.assertFalse(reader.is_encrypted)
+        self.assertEqual(len(reader.pages), 21)
+        text = "\n".join(page.extract_text() for page in reader.pages)
+        for title in ("Version 0.1.0 evaluation", "Yellow in context", "Grouped blue-family analysis", "References"):
+            self.assertIn(title, text)
+        for colour in self.source["colors"]:
+            self.assertIn(colour["hex"], text)
+        digest = hashlib.sha256((ROOT / "palettes/veen-clark.yaml").read_bytes()).hexdigest()
+        self.assertIn(digest, text)
+        with tempfile.TemporaryDirectory() as temporary:
+            output = Path(temporary) / "report.pdf"
+            command = [sys.executable, str(ROOT / "tools/build_pdf_report.py"), "--output", str(output)]
+            subprocess.run(command, check=True, capture_output=True)
+            first = output.read_bytes()
+            regenerated = "\n".join(page.extract_text() for page in PdfReader(output).pages)
+            self.assertEqual(regenerated, text)
+            subprocess.run(command, check=True, capture_output=True)
+            self.assertEqual(output.read_bytes(), first)
 
     def test_documented_values_and_citation_version_are_current(self):
         """Keep the human-facing table and citation metadata synchronized."""

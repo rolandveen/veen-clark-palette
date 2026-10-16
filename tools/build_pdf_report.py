@@ -1,4 +1,4 @@
-"""Build the complete, paginated Veen-Clark candidate report as a PDF."""
+"""Build the complete, paginated Veen-Clark palette report as a PDF."""
 
 from __future__ import annotations
 
@@ -26,8 +26,8 @@ from reportlab.platypus import (
 )
 
 ROOT = Path(__file__).resolve().parents[1]
-AUDIT = ROOT / "reports" / "veen-clark-candidate-2-audit"
-COMPARISON = ROOT / "reports" / "veen-clark-candidate-2-comparison"
+AUDIT = ROOT / "reports" / "v0.1.0" / "audit"
+COMPARISON = ROOT / "reports" / "v0.1.0" / "comparison"
 DEFAULT_OUTPUT = ROOT / "output" / "pdf" / "veen-clark-palette-0.1.0-report.pdf"
 
 PAGE_WIDTH, PAGE_HEIGHT = A4
@@ -35,11 +35,9 @@ MARGIN = 17 * mm
 CONTENT_WIDTH = PAGE_WIDTH - 2 * MARGIN
 CONTENT_HEIGHT = PAGE_HEIGHT - 2 * MARGIN
 
-PALETTE = [
-    colors.HexColor("#005A8D"),
-    colors.HexColor("#7CC7F2"),
-    colors.HexColor("#E69F00"),
-]
+RELEASE = json.loads((ROOT / "palette.json").read_text(encoding="utf-8"))
+HEX = {colour["name"]: colour["hex"] for colour in RELEASE["colors"]}
+PALETTE = [colors.HexColor(HEX[name]) for name in ("blue", "sky_blue", "orange")]
 
 
 class InvariantCanvas(canvas.Canvas):
@@ -102,12 +100,12 @@ def styled_table(data: list[list[str]], widths: list[float], font_size: float = 
 def page_chrome(pdf: canvas.Canvas, document: SimpleDocTemplate) -> None:
     """Draw a quiet running header, divider, and page number."""
     pdf.saveState()
-    pdf.setStrokeColor(colors.HexColor("#7CC7F2"))
+    pdf.setStrokeColor(colors.HexColor(HEX["sky_blue"]))
     pdf.setLineWidth(0.8)
     pdf.line(MARGIN, PAGE_HEIGHT - 12 * mm, PAGE_WIDTH - MARGIN, PAGE_HEIGHT - 12 * mm)
     pdf.setFont("Helvetica", 7.5)
     pdf.setFillColor(colors.HexColor("#4A5962"))
-    pdf.drawString(MARGIN, PAGE_HEIGHT - 9 * mm, "Veen-Clark 0.1.0 - PaletteBench evaluation")
+    pdf.drawString(MARGIN, PAGE_HEIGHT - 9 * mm, f"Veen-Clark {RELEASE['version']} - PaletteBench evaluation")
     pdf.drawRightString(PAGE_WIDTH - MARGIN, 9 * mm, f"Page {document.page}")
     pdf.restoreState()
 
@@ -126,23 +124,52 @@ def build_story() -> list:
     groups = read_csv(AUDIT / "data" / "group_summary.csv")
     metadata = json.loads((AUDIT / "metadata.json").read_text(encoding="utf-8"))
 
+    pair_changes = read_csv(COMPARISON / "data" / "pairwise_changes.csv")
+    comparison = {row["condition"]: row for row in read_csv(COMPARISON / "data" / "comparison.csv")
+                  if row["palette_index"] == "1"}
+    conditions = (("normal", "Normal"), ("protan100", "Protan 100%"),
+                  ("deutan100", "Deutan 100%"), ("tritan100", "Tritan 100%"),
+                  ("grayscale", "Grayscale"))
+
+    def pair(condition: str, first: str, second: str) -> dict:
+        matches = [row for row in pair_changes if row["condition"] == condition
+                   and {row["colour1"], row["colour2"]} == {first, second}]
+        if len(matches) != 1:
+            raise ValueError(f"Expected one pair for {condition}: {first}/{second}")
+        return matches[0]
+
+    blue_table = [["Condition", "Okabe-Ito", "Veen-Clark", "Change"]]
+    yellow_table = [["Condition", "Pair", "Okabe-Ito", "Veen-Clark", "Change"]]
+    for condition, label in conditions:
+        row = pair(condition, "sky_blue", "blue")
+        blue_table.append([label, f"{float(row['baseline_delta_e_00']):.2f}",
+                           f"{float(row['palette_delta_e_00']):.2f}",
+                           f"{float(row['change_from_baseline']):+.2f}"])
+        for other in ("orange", "bluish_green"):
+            row = pair(condition, "yellow", other)
+            yellow_table.append([label, "Yellow / " + other.replace("_", " "),
+                                 f"{float(row['baseline_delta_e_00']):.2f}",
+                                 f"{float(row['palette_delta_e_00']):.2f}",
+                                 f"{float(row['change_from_baseline']):+.2f}"])
+    yellow = next(row for row in colours_data if row["id"] == "yellow")
+
     story: list = [
         Spacer(1, 21 * mm),
         Paragraph("Veen-Clark palette", STYLES["Title"]),
-        Paragraph("Version 0.1.0 evaluation (candidate 2)", STYLES["Subtitle"]),
+        Paragraph(f"Version {RELEASE['version']} evaluation", STYLES["Subtitle"]),
         Spacer(1, 8 * mm),
-        figure(AUDIT / "figures" / "palette_normal.png", "Version 0.1.0 colours, evaluated as candidate 2, in normal sRGB.", 65 * mm),
+        figure(AUDIT / "figures" / "palette_normal.png", "Veen-Clark palette in normal sRGB.", 65 * mm),
         Spacer(1, 8 * mm),
         body(
             "An Okabe-Ito derivative by Roland J. Veen and Charlie Clark. "
             "Sky blue is lightened and blue is darkened so the pair can represent related "
-            "subgroups in scientific scatter and bar charts. Yellow is updated to #F5E600. "
-            "The archived figures retain their original candidate 2 labels."
+            "subgroups in scientific scatter and bar charts. "
+            f"The palette uses yellow {HEX['yellow']}."
         ),
         Spacer(1, 3 * mm),
         body(
-            "Version 0.1.0, approved from candidate 2 on 16 October 2026. This report compares colour-difference metrics for the "
-            "candidate and Okabe-Ito palettes."
+            "This report compares colour-difference metrics for the Veen-Clark "
+            "and Okabe-Ito palettes."
         ),
         Spacer(1, 8 * mm),
         body(
@@ -159,23 +186,17 @@ def build_story() -> list:
         ),
         Spacer(1, 4 * mm),
         styled_table(
-            [
-                ["Condition", "Okabe-Ito", "Candidate", "Change"],
-                ["Normal", "22.31", "37.92", "+15.61"],
-                ["Protan 100%", "20.75", "36.03", "+15.28"],
-                ["Deutan 100%", "22.45", "38.57", "+16.12"],
-                ["Tritan 100%", "19.95", "35.08", "+15.13"],
-                ["Grayscale", "21.62", "37.43", "+15.81"],
-            ],
+            blue_table,
             [55 * mm, 35 * mm, 35 * mm, 30 * mm],
             8.5,
         ),
         Spacer(1, 5 * mm),
         body(
             "The whole-palette result is mixed. The normal-vision 10th percentile rises by "
-            "2.73 Delta E00 and the protan-100% minimum rises by 3.56, but darkening blue "
+            f"{float(comparison['normal']['q10_change_from_baseline']):.2f} Delta E00 "
+            f"and the protan-100% minimum rises by {float(comparison['protan100']['minimum_change_from_baseline']):.2f}, but darkening blue "
             "reduces separation from black and produces the largest loss against vermillion "
-            "under tritan 100% (-12.20 Delta E00)."
+            f"under tritan 100% ({float(pair('tritan100', 'blue', 'vermillion')['change_from_baseline']):.2f} Delta E00)."
         ),
         Spacer(1, 6 * mm),
         figure(
@@ -184,8 +205,25 @@ def build_story() -> list:
             100 * mm,
         ),
         PageBreak(),
+        heading("Yellow in context"),
+        body(
+            "Informal feedback from people with regular colour vision suggested that the "
+            "original yellow could appear greenish and insufficiently distinct in presentations. "
+            "This motivated the yellow choice; it was not a controlled participant study. "
+            "The table reports modelled separation from orange and bluish green."
+        ),
+        Spacer(1, 5 * mm),
+        styled_table(yellow_table, [29 * mm, 55 * mm, 28 * mm, 28 * mm, 28 * mm]),
+        Spacer(1, 5 * mm),
+        body(
+            f"Yellow's normal-sRGB contrast ratio against white is {float(yellow['contrast_white']):.2f}:1. "
+            "Pairwise colour separation does not establish visibility on a white slide. "
+            "PaletteBench does not model projector colour errors or audience perception. "
+            "Check the actual figure under its intended viewing conditions."
+        ),
+        PageBreak(),
         heading("Baseline-relative comparison"),
-        figure(COMPARISON / "figures" / "palette_comparison.png", "Figure 2. Okabe-Ito baseline and Veen-Clark candidate under the standard reported conditions.", 90 * mm),
+        figure(COMPARISON / "figures" / "palette_comparison.png", "Figure 2. Okabe-Ito baseline and Veen-Clark under the standard reported conditions.", 90 * mm),
         Spacer(1, 5 * mm),
         figure(COMPARISON / "figures" / "minimum_distance_comparison.png", "Figure 3. Whole-palette minimum Delta E00 by condition.", 95 * mm),
         PageBreak(),
@@ -326,7 +364,7 @@ def build_story() -> list:
         PageBreak(),
         heading("Interpretation and limitations"),
         body(
-            "The candidate improves its intended blue-family separation in all standard "
+            "The palette improves its intended blue-family separation in all standard "
             "PaletteBench conditions. It does not improve every pair. In particular, the darker "
             "blue approaches black, and its tritan-simulated relationship with vermillion loses "
             "separation relative to Okabe-Ito. Redundant encodings remain appropriate whenever "
@@ -337,7 +375,7 @@ def build_story() -> list:
             "CVD simulations and perceptual-distance models do not reproduce a particular "
             "person's perception. Monitor calibration, viewing environment, acuity, ageing, "
             "print reproduction, surrounding colours, spatial context, and mark size can all "
-            "change discriminability. Human evaluation is outside this candidate audit."
+            "change discriminability. Human evaluation is outside this computational audit."
         ),
         Spacer(1, 7 * mm),
         heading("Reproducibility", 2),
@@ -373,7 +411,7 @@ def build(output: Path) -> None:
         rightMargin=MARGIN,
         topMargin=18 * mm,
         bottomMargin=16 * mm,
-        title="Veen-Clark palette: version 0.1.0 evaluation",
+        title=f"Veen-Clark palette: version {RELEASE['version']} evaluation",
         author="Roland J. Veen and Charlie Clark",
         subject="PaletteBench audit and Okabe-Ito comparison",
     )

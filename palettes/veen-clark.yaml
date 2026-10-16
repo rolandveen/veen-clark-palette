@@ -9,7 +9,7 @@ description: >
 source:
   authors: [Roland J. Veen, Charlie Clark]
   url: https://github.com/rolandveen/veen-clark-palette
-  note: Approved from candidate 2; not yet validated with participants.
+  note: Not yet validated in a controlled participant study.
 colors:
   - {id: orange, name: Orange, hex: "#E69F00"}
   - {id: sky_blue, name: Sky blue, hex: "#7CC7F2", group: blue_family}

@@ -22,12 +22,14 @@ jobs:
         run: python tools/generate_exports.py
       - name: Reject stale generated files
         run: git diff --exit-code
-      - name: Run consistency tests
-        run: python -m unittest discover -s tests -v
-      - name: Smoke-test example rendering
+      - name: Validate committed release artifacts
+        run: python tools/rebuild_all.py --check
+      - name: Preserve committed scientific data for comparison
+        run: cp -R reports/v0.1.0 /tmp/veen-clark-original-results
+      - name: Rebuild all release artifacts from YAML
         env:
           MPLBACKEND: Agg
           MPLCONFIGDIR: /tmp/matplotlib
-        run: python examples/blue_subgroups.py --output /tmp/veen-clark-examples
-      - name: Smoke-test compiled PDF report
-        run: python tools/build_pdf_report.py --output /tmp/veen-clark-palette-report.pdf
+        run: python tools/rebuild_all.py
+      - name: Reject changed scientific data
+        run: python tools/compare_results.py /tmp/veen-clark-original-results reports/v0.1.0

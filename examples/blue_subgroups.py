@@ -22,6 +22,7 @@ def load_colors() -> dict[str, str]:
 
 def render(output: Path) -> None:
     """Write deterministic example plots to ``output`` in SVG and PNG formats."""
+    plt.rcParams["svg.hashsalt"] = "veen-clark-0.1.0"
     colors = load_colors()
     sky_blue, blue = colors["sky_blue"], colors["blue"]
     rng = np.random.default_rng(20261001)
@@ -73,7 +74,8 @@ def render(output: Path) -> None:
 
     output.mkdir(parents=True, exist_ok=True)
     for suffix in ("svg", "png"):
-        fig.savefig(output / f"blue-subgroups.{suffix}", dpi=300, bbox_inches="tight")
+        fig.savefig(output / f"blue-subgroups.{suffix}", dpi=300, bbox_inches="tight",
+                    metadata={"Date": None} if suffix == "svg" else {})
     plt.close(fig)
 
 
