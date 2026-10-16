@@ -1,0 +1,46 @@
+TY  - ELEC
+ID  - OkabeIto2002
+AU  - Okabe, Masataka
+AU  - Ito, Kei
+TI  - How to make figures and presentations that are friendly to color blind people
+PY  - 2002
+UR  - https://jfly.uni-koeln.de/html/color_blind/
+N1  - Original brochure: https://jfly.uni-koeln.de/html/manuals/pdf/color_blind.pdf; accessed 2026-10-16
+ER  -
+
+TY  - JOUR
+ID  - Wong2011ColorBlindness
+AU  - Wong, Bang
+TI  - Points of View: Color Blindness
+PY  - 2011
+JO  - Nature Methods
+VL  - 8
+IS  - 6
+DO  - 10.1038/nmeth.1618
+UR  - https://doi.org/10.1038/nmeth.1618
+SP  - 441
+ER  -
+
+TY  - JOUR
+ID  - Wong2023Correction
+AU  - Wong, Bang
+TI  - Author Correction: Points of View: Color Blindness
+PY  - 2023
+JO  - Nature Methods
+VL  - 20
+IS  - 8
+DO  - 10.1038/s41592-023-01974-0
+UR  - https://doi.org/10.1038/s41592-023-01974-0
+SP  - 1266
+ER  -
+
+TY  - COMP
+ID  - Veen2026PaletteBench
+AU  - Veen, Roland Janno
+TI  - PaletteBench
+PY  - 2026
+DO  - 10.5281/zenodo.23071831
+UR  - https://github.com/rolandveen/palettebench/tree/v0.1.0
+ET  - 0.1.0
+N1  - License: BSD-3-Clause
+ER  -

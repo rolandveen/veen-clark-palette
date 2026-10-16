@@ -155,6 +155,7 @@ class PaletteTest(unittest.TestCase):
             module.EXPORTS = module.ROOT / "exports"
             module.main()
             for path in [module.ROOT / "palette.json", module.ROOT / "CITATION.ris",
+                         module.ROOT / "REFERENCES.ris",
                          *module.EXPORTS.iterdir()]:
                 self.assertEqual(path.read_bytes(), (ROOT / path.relative_to(module.ROOT)).read_bytes())
 
@@ -209,6 +210,16 @@ class PaletteTest(unittest.TestCase):
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
         citation = yaml.safe_load((ROOT / "CITATION.cff").read_text(encoding="utf-8"))
         self.assertEqual(citation["version"], self.source["version"])
+        palette_ris = (ROOT / "CITATION.ris").read_text(encoding="utf-8")
+        reference_ris = (ROOT / "REFERENCES.ris").read_text(encoding="utf-8")
+        bibliography = (ROOT / "REFERENCES.bib").read_text(encoding="utf-8")
+        identifiers = re.findall(r"@\w+\{([^,]+),", bibliography)
+        self.assertEqual(palette_ris.count("TY  - "), 1)
+        self.assertEqual(reference_ris.count("TY  - "), len(identifiers))
+        self.assertIn(f"TI  - {citation['title']}\n", palette_ris)
+        for identifier in identifiers:
+            self.assertIn(f"ID  - {identifier}\n", reference_ris)
+            self.assertNotIn(f"ID  - {identifier}\n", palette_ris)
         for color in self.generated["colors"]:
             integer = f"({', '.join(str(value) for value in color['rgb'])})"
             normalized = "(" + ", ".join(

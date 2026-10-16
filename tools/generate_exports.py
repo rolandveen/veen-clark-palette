@@ -1,4 +1,4 @@
-"""Generate palette exports and an RIS citation from the canonical YAML sources."""
+"""Generate palette exports and RIS citations from the maintained source files."""
 
 from __future__ import annotations
 
@@ -11,6 +11,7 @@ import yaml
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT / "palettes" / "veen-clark.yaml"
 CITATION_SOURCE = ROOT / "CITATION.cff"
+REFERENCES_SOURCE = ROOT / "REFERENCES.bib"
 EXPORTS = ROOT / "exports"
 HEADER = (
     "Generated from palettes/veen-clark.yaml by "
@@ -166,6 +167,42 @@ def main() -> None:
         ris.append(f"DO  - {citation['doi']}")
     ris += ["ER  -", ""]
     (ROOT / "CITATION.ris").write_text("\n".join(ris), encoding="utf-8")
+    ris = []
+    references = REFERENCES_SOURCE.read_text(encoding="utf-8")
+    # The maintained bibliography uses flat, brace-delimited BibTeX fields.
+    # Fail explicitly on unsupported syntax rather than silently omitting data.
+    entry_pattern = re.compile(r"@(\w+)\{([^,]+),\s*(.*?)^\}", re.DOTALL | re.MULTILINE)
+    field_pattern = re.compile(r"(\w+)\s*=\s*\{([^{}]*)\}\s*,?\s*")
+    if entry_pattern.sub("", references).strip():
+        raise ValueError("Unsupported bibliography syntax")
+    entries = list(entry_pattern.finditer(references))
+    if not entries:
+        raise ValueError("Bibliography contains no references")
+    types = {"misc": "ELEC", "article": "JOUR", "software": "COMP"}
+    tags = {"title": "TI", "year": "PY", "journal": "JO", "volume": "VL",
+            "number": "IS", "doi": "DO", "url": "UR", "version": "ET", "note": "N1"}
+    for entry in entries:
+        kind, identifier, fields = entry.groups()
+        if kind.lower() not in types or field_pattern.sub("", fields).strip():
+            raise ValueError(f"Unsupported BibTeX entry: {identifier}")
+        reference = dict(field_pattern.findall(fields))
+        unknown = set(reference) - set(tags) - {"author", "pages", "license"}
+        if unknown:
+            raise ValueError(f"Unsupported fields in {identifier}: {sorted(unknown)}")
+        ris += [f"TY  - {types[kind.lower()]}", f"ID  - {identifier}"]
+        ris += [f"AU  - {author.strip()}" for author in reference["author"].split(" and ")]
+        for field, tag in tags.items():
+            if field in reference:
+                ris.append(f"{tag}  - {reference[field]}")
+        if "pages" in reference:
+            pages = re.split(r"--?|–", reference["pages"], maxsplit=1)
+            ris.append(f"SP  - {pages[0]}")
+            if len(pages) == 2:
+                ris.append(f"EP  - {pages[1]}")
+        if "license" in reference:
+            ris.append(f"N1  - License: {reference['license']}")
+        ris += ["ER  -", ""]
+    (ROOT / "REFERENCES.ris").write_text("\n".join(ris), encoding="utf-8")
 
 
 if __name__ == "__main__":

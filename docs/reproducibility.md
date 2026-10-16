@@ -6,11 +6,15 @@
 values and groups. `tools/`, the Python example source, README, citation and
 reference files are maintained sources.
 
-Generated outputs are `palette.json`, `CITATION.ris`, `exports/`, the example PNG/SVG,
-`reports/v0.1.0/`, and `output/pdf/veen-clark-palette-0.1.0-report.pdf`.
+Generated outputs are `palette.json`, `CITATION.ris`, `REFERENCES.ris`, `exports/`,
+the example PNG/SVG, `reports/v0.1.0/`, and `output/pdf/veen-clark-palette-0.1.0-report.pdf`.
 Reports contain exact YAML input copies, hashes, configuration, dependency
 versions, full-precision data, tables and figures. Generated data are not edited
-by hand. `CITATION.ris` is generated from `CITATION.cff`. The PDF reads metrics from the generated CSV files and imports the responsible
+by hand. `CITATION.ris` contains only the palette citation from `CITATION.cff`.
+`REFERENCES.ris` contains all supporting references from `REFERENCES.bib`.
+Users are asked to cite Veen–Clark and acknowledge its Okabe–Ito origins;
+citing the original work is encouraged where relevant, rather than required.
+The PDF reads metrics from the generated CSV files and imports the responsible
 AI use statement and linked references directly from their README sections.
 
 ## Environment

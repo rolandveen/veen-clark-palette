@@ -1,5 +1,8 @@
 cff-version: 1.2.0
-message: "If you use this palette, please cite this repository and its Okabe-Ito and Wong provenance."
+message: >-
+  If you use the Veen-Clark palette, please cite this repository. When describing
+  the palette, acknowledge that it is derived from Okabe-Ito. Citing the original
+  Okabe-Ito work is encouraged where relevant; a second citation is not required.
 title: "Veen-Clark palette"
 type: software
 version: 0.1.0

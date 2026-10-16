@@ -8,6 +8,17 @@ subgroups by making sky blue lighter and blue darker.
 **Version 0.1.0.** Computational evaluation is condition-specific. The palette
 has not been validated in a controlled participant study.
 
+## Contents
+
+- [Colours](#colours)
+- [Use](#use)
+- [PaletteBench evaluation](#palettebench-evaluation)
+- [Plot examples](#plot-examples)
+- [Provenance and citation](#provenance-and-citation)
+- [Responsible use of AI](#responsible-use-of-ai)
+- [References](#references)
+- [License](#license)
+
 ## Colours
 
 | Name | Hex | RGB (8-bit) | RGB triplet (0–1) |
@@ -133,9 +144,12 @@ Masataka Okabe and Kei Ito. Bang Wong brought the palette to a broad scientific
 audience in a 2011 *Nature Methods* column; a 2023 author correction added the
 missing link to the Okabe–Ito presentation. See [`REFERENCES.bib`](REFERENCES.bib).
 
-If you use this palette, cite this repository using
-[`CITATION.cff`](CITATION.cff), cite PaletteBench for the exact release used,
-and retain the Okabe–Ito and Wong provenance.
+If you use the Veen–Clark palette, please cite this repository using
+[`CITATION.cff`](CITATION.cff). When describing the palette, acknowledge that it
+is derived from Okabe–Ito. We encourage citing the
+[original Okabe–Ito work](#references) where relevant; a second citation is
+not required. If you use PaletteBench for your own analyses, cite the exact
+PaletteBench release used.
 
 For convenience, copy this plain-text citation:
 
@@ -146,8 +160,12 @@ Available from: https://github.com/rolandveen/veen-clark-palette
 
 For EndNote, download [`CITATION.ris`](CITATION.ris) and select
 [Reference Manager (RIS)](https://docs.endnote.com/docs/endnote/2025/v1/macos/en/content/08import/import_options.htm)
-as the import option. The file is generated from `CITATION.cff` and includes
-the authors, title, version, year and repository URL.
+as the import option. `CITATION.ris` contains only the Veen–Clark palette citation,
+generated from `CITATION.cff`.
+
+For the supporting literature, download [`REFERENCES.ris`](REFERENCES.ris),
+which contains every entry in [`REFERENCES.bib`](REFERENCES.bib). These references
+are provided for convenience, rather than as a list users must cite.
 
 ## Responsible use of AI
 
