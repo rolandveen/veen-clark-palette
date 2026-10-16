@@ -61,6 +61,27 @@ from exports.veen_clark import HEX, NAMES
 colours = dict(zip(NAMES, HEX))
 ```
 
+Colour names and values use the same order in every implementation:
+
+| Implementation | Colour names | Colour values |
+|---|---|---|
+| Python | `NAMES` | `HEX`, `RGB` |
+| R | `veen_clark_names` or `names(veen_clark)` | named hex vector `veen_clark` |
+| MATLAB | second output `names` | first output `colors` (RGB), third output `hex` (cell array of hex strings) |
+| Julia | `VEEN_CLARK_NAMES` | `VEEN_CLARK` |
+| JavaScript | `veenClarkNames` | `veenClark` |
+| CSS | named custom properties, e.g. `--vc-sky-blue` | hex property values |
+
+In MATLAB, add `exports/` to your path and request the outputs you need:
+
+```matlab
+[colors, names, hex] = veen_clark();
+% colors(2,:) = [0.486275 0.780392 0.949020]
+% names{2} = 'sky_blue'; hex{2} = '#7CC7F2'
+```
+
+Calling `colors = veen_clark()` still returns the RGB matrix.
+
 Use Python 3.12 and Git:
 
 ```bash

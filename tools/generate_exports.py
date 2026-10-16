@@ -129,27 +129,35 @@ def main() -> None:
     r_values = ", ".join(f'"{value}"' for value in hexes)
     r_names = ", ".join(f'"{value}"' for value in names)
     (EXPORTS / "veen_clark.R").write_text(
-        f"# {HEADER}\nveen_clark <- setNames(c({r_values}), c({r_names}))\n",
+        f"# {HEADER}\nveen_clark_names <- c({r_names})\n"
+        f"veen_clark <- setNames(c({r_values}), veen_clark_names)\n",
         encoding="utf-8",
     )
 
     matlab_rows = ["    " + " ".join(f"{value:.6f}" for value in row) for row in triplets]
     matlab = (
-        f"% {HEADER}\nfunction colors = veen_clark()\ncolors = [\n"
+        f"% {HEADER}\nfunction [colors, names, hex] = veen_clark()\n"
+        "% RGB rows, colour names and hex strings share the same order.\n"
+        "colors = [\n"
         + ";\n".join(matlab_rows)
-        + "\n];\nend\n"
+        + "\n];\n"
+        + "names = {" + ", ".join(f"'{value}'" for value in names) + "};\n"
+        + "hex = {" + ", ".join(f"'{value}'" for value in hexes) + "};\n"
+        + "end\n"
     )
     (EXPORTS / "veen_clark.m").write_text(matlab, encoding="utf-8")
 
     julia_values = ", ".join(f'colorant"{value}"' for value in hexes)
     (EXPORTS / "veen_clark.jl").write_text(
-        f"# {HEADER}\nusing Colors\nconst VEEN_CLARK = [{julia_values}]\n",
+        f"# {HEADER}\nusing Colors\nconst VEEN_CLARK_NAMES = [{r_names}]\n"
+        f"const VEEN_CLARK = [{julia_values}]\n",
         encoding="utf-8",
     )
 
     js_values = ", ".join(f'"{value}"' for value in hexes)
     (EXPORTS / "veen-clark.js").write_text(
-        f"// {HEADER}\nexport const veenClark = Object.freeze([{js_values}]);\n",
+        f"// {HEADER}\nexport const veenClarkNames = Object.freeze([{r_names}]);\n"
+        f"export const veenClark = Object.freeze([{js_values}]);\n",
         encoding="utf-8",
     )
 

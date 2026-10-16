@@ -70,13 +70,22 @@ class PaletteTest(unittest.TestCase):
         for path in paths:
             text = path.read_text(encoding="utf-8").upper()
             for color in self.source["colors"]:
-                # MATLAB stores normalized triplets rather than hexadecimal,
-                # so it is validated numerically by its generated row count.
-                if path.suffix == ".m":
-                    matrix = text.split("COLORS = [", 1)[1].split("];", 1)[0]
-                    self.assertEqual(len(matrix.strip().splitlines()), len(self.source["colors"]))
-                    break
                 self.assertIn(color["hex"], text, path.name)
+                identifier = color["id"].replace("_", "-") if path.suffix == ".css" else color["id"]
+                self.assertIn(identifier.upper(), text, path.name)
+            if path.suffix == ".m":
+                matrix = text.split("COLORS = [", 1)[1].split("];", 1)[0]
+                actual = [[float(value) for value in row.strip().split()]
+                          for row in matrix.strip().split(";")]
+                self.assertEqual(len(actual), len(self.generated["colors"]))
+                for row, color in zip(actual, self.generated["colors"]):
+                    self.assertEqual(len(row), 3)
+                    for value, channel in zip(row, color["rgb"]):
+                        self.assertAlmostEqual(value, channel / 255, places=6)
+                for field, expected in (("NAMES", [c["id"].upper() for c in self.source["colors"]]),
+                                        ("HEX", [c["hex"] for c in self.source["colors"]])):
+                    values = text.split(f"{field} = {{", 1)[1].split("};", 1)[0]
+                    self.assertEqual(re.findall(r"'([^']+)'", values), expected)
 
     def test_committed_report_uses_current_authoritative_input(self):
         """Require exact current inputs and honest archive provenance."""
