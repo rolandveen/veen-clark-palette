@@ -12,7 +12,7 @@ class PaletteTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.source = yaml.safe_load(
-            (ROOT / "palettes" / "veen-clark-candidate.yaml").read_text(encoding="utf-8")
+            (ROOT / "palettes" / "veen-clark.yaml").read_text(encoding="utf-8")
         )
         cls.generated = json.loads((ROOT / "palette.json").read_text(encoding="utf-8"))
 
@@ -73,22 +73,21 @@ class PaletteTest(unittest.TestCase):
                 self.assertIn(color["hex"], text, path.name)
 
     def test_committed_report_uses_current_authoritative_input(self):
-        """Force every palette edit to be accompanied by a fresh benchmark report."""
-        source = ROOT / "palettes" / "veen-clark-candidate.yaml"
-        archived_inputs = [
-            ROOT
-            / "reports"
-            / "palettebench-v0.1.0"
-            / "inputs"
-            / "02-veen-clark-candidate.yaml",
-            ROOT
-            / "reports"
-            / "veen-clark-palettebench-v0.1.0"
-            / "inputs"
-            / "01-veen-clark-candidate.yaml",
-        ]
-        for archived in archived_inputs:
-            self.assertEqual(source.read_bytes(), archived.read_bytes(), archived)
+        """Verify release colours against hashed candidate 2 evaluation inputs."""
+        import hashlib
+        source = ROOT / "palettes" / "veen-clark-candidate-2.yaml"
+        candidate = yaml.safe_load(source.read_text(encoding="utf-8"))
+        self.assertEqual(self.source["colors"], candidate["colors"])
+        self.assertEqual(self.source["version"], "0.1.0")
+        self.assertEqual(self.source["status"], "released")
+        for folder in ("veen-clark-candidate-2-audit", "veen-clark-candidate-2-comparison"):
+            report = ROOT / "reports" / folder
+            metadata = json.loads((report / "metadata.json").read_text())
+            for item in metadata["inputs"]:
+                archived = report / item["copied_file"]
+                self.assertEqual(hashlib.sha256(archived.read_bytes()).hexdigest(), item["sha256"])
+                if "candidate-2" in archived.name:
+                    self.assertEqual(source.read_bytes(), archived.read_bytes())
 
     def test_documented_values_and_citation_version_are_current(self):
         """Keep the human-facing table and citation metadata synchronized."""

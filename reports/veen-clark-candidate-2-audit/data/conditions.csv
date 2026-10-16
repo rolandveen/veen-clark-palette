@@ -1,0 +1,14 @@
+condition,kind,severity,label,clipped_colour_count,clipped_channel_count,raw_srgb_min,raw_srgb_max
+normal,normal,0,Normal,0,0,0.0,0.960784313725
+protan20,protan,20,Protan 20%,3,3,-0.101167775575,0.971276112453
+protan40,protan,40,Protan 40%,3,3,-0.206448732295,0.977963867851
+protan60,protan,60,Protan 60%,3,3,-0.314656024497,0.982416811095
+protan80,protan,80,Protan 80%,3,3,-0.425178158469,0.98546018997
+protan100,protan,100,Protan 100%,3,3,-0.53771412937,0.987571267412
+deutan20,deutan,20,Deutan 20%,2,2,-0.032542762224,0.976379778245
+deutan40,deutan,40,Deutan 40%,1,1,-0.047087267666,0.987205053422
+deutan60,deutan,60,Deutan 60%,1,1,-0.0509046793207,0.995340618819
+deutan80,deutan,80,Deutan 80%,2,2,-0.0476920420839,1.00181237902
+deutan100,deutan,100,Deutan 100%,2,2,-0.0395158124338,1.00718744454
+tritan100,tritan,100,Tritan 100%,3,3,-0.735040230988,1.03676665306
+grayscale,grayscale,0,Grayscale,0,0,0.0,0.886035471956

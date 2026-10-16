@@ -1,9 +1,9 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "name": "Veen-Clark candidate v0.1",
+  "name": "Veen-Clark palette",
   "slug": "veen-clark",
-  "version": "0.1.0-candidate.1",
-  "status": "candidate",
+  "version": "0.1.0",
+  "status": "released",
   "colors": [
     {
       "name": "orange",
@@ -39,11 +39,11 @@
     {
       "name": "yellow",
       "display_name": "Yellow",
-      "hex": "#F0E442",
+      "hex": "#F5E600",
       "rgb": [
-        240,
-        228,
-        66
+        245,
+        230,
+        0
       ]
     },
     {

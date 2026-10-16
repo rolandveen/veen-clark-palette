@@ -8,7 +8,7 @@ Baseline (palette 1): **Okabe-Ito**
 
 ![Minimum-separation change](figures/minimum_change_comparison.svg)
 
-Positive Δ values mean greater modelled separation than the baseline; negative values mean reduced modelled separation. These are objective changes in the stated metric, not universal accessibility verdicts. Results remain condition-specific; no aggregate accessibility score or ranking is computed.
+Positive Δ values mean greater modelled separation than the baseline; negative values mean reduced modelled separation. Results are reported separately for each condition. Zero change means the minimum separation is unchanged.
 
 ## Condition-level results
 

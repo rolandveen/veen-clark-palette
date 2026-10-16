@@ -27,8 +27,8 @@ def render(output: Path) -> None:
     rng = np.random.default_rng(20261001)
     fig, axes = plt.subplots(1, 2, figsize=(9, 3.8), constrained_layout=True)
 
-    # Keep geometry identical so the example shows the contribution of colour
-    # itself rather than gaining extra separation from marker shape or texture.
+    # Use the same marker shape and fill style for both subgroups.
+    # Positions and values differ; these synthetic data illustrate palette use.
     for center, color, label in (
         ((0.0, 0.0), sky_blue, "Subgroup A"),
         ((1.15, 0.8), blue, "Subgroup B"),

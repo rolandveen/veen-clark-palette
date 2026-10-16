@@ -1,5 +1,17 @@
 # Veen–Clark palette: production-readiness design
 
+## Status update — 16 October 2026
+
+Candidate 2 has been approved as Veen–Clark palette 0.1.0. Its only colour change
+from candidate 1 is yellow `#F0E442` to `#F5E600`. The canonical source is now
+`palettes/veen-clark.yaml`; both candidate sources and their reports remain
+historical evidence. See [the release record](releases/0.1.0.md).
+
+The sections below preserve the original candidate-1 design and handover context;
+their candidate status, six unchanged colours, numerical summaries and approval
+gates describe that earlier snapshot. Full regeneration and dependency locking
+remain open engineering tasks. Approval does not establish human validation.
+
 ## Purpose
 
 This document preserves the design intent, scientific context, current
@@ -70,9 +82,9 @@ or claim that these values are optimal without explicit approval.
 
 ## Evidence and claim boundaries
 
-PaletteBench v0.1.0 is the evaluation workbench. It reports transparent,
-condition-specific results rather than reducing accessibility to a single
-score. The committed analysis includes normal sRGB, simulated protan, deutan
+PaletteBench v0.1.0 is the evaluation workbench. It reports colour-difference
+metrics separately for each condition. The committed analysis includes normal
+sRGB, simulated protan, deutan
 and tritan conditions, WCAG-luminance grayscale, pairwise CIEDE2000 distances,
 severity progressions, gamut-clipping provenance and group-level summaries.
 
@@ -86,9 +98,8 @@ For the intended sky-blue/blue pair, the current audit reports:
 | Tritan 100% | 19.95 | 35.08 | +15.13 |
 | Grayscale | 21.62 | 37.43 | +15.81 |
 
-This is encouraging pair-specific evidence. It is not proof that the whole
-palette is universally superior. The whole-palette result is mixed: the normal
-10th percentile and protan-100% minimum improve, while some individual pairs
+The blue pair has greater modelled separation in each of these conditions.
+For the whole palette, the normal 10th percentile and protan-100% minimum improve, while some individual pairs
 lose separation. The most notable reported regressions are blue/vermillion
 under tritan 100% and blue/black under several conditions.
 
@@ -104,18 +115,17 @@ Every publication and release should preserve these boundaries:
 - Do not create an opaque aggregate “accessibility score.” Report conditions
   and important pairs separately.
 
-## Honest examples
+## Plot examples
 
 The scatter-and-bar example originally used a fill pattern for one blue. That
-made the subgroups easier to distinguish for reasons other than colour and
-therefore exaggerated the apparent colour contrast. The corrected example uses
-identical circular scatter markers and solid, unhatched bars. Colour is the
-only distinguishing encoding in that demonstration.
+added a distinguishing cue beyond colour. The corrected example uses
+identical circular scatter markers and solid, unhatched bars. The data are
+synthetic. Group positions and values also differ, so the
+example illustrates palette use rather than testing colour discriminability.
 
 This does not mean redundant encodings are bad practice. In actual figures,
 marker shape, line style, direct labels or hatching can improve accessibility.
-The rule is narrower: a figure offered as evidence of colour separation must
-not quietly add a second distinguishing channel.
+A test of colour discriminability would need to control these other cues.
 
 The source is `examples/blue_subgroups.py`; committed PNG and SVG outputs live
 beside it. The script imports the generated Python palette rather than repeating
@@ -149,7 +159,7 @@ The final report is `output/pdf/veen-clark-palette-report.pdf`. It is currently
 a 20-page A4 document and contains:
 
 - title, scope and limitations;
-- executive findings;
+- results;
 - the corrected scatter-and-bar example;
 - comparison with the Okabe–Ito baseline;
 - methods and assumptions;
@@ -454,3 +464,9 @@ visually inspected from rendered page images.
 Those checks establish that the current snapshot is internally consistent.
 They do **not** close the end-to-end regeneration gap described above, and they
 do not constitute Charlie’s approval or a production release.
+
+### Report wording
+
+The comparison report introduction has been edited locally for clarity.
+PaletteBench v0.1.0 regeneration restores its original boilerplate; preserve
+this wording when adding the full rebuild pipeline. Numerical outputs are unchanged.

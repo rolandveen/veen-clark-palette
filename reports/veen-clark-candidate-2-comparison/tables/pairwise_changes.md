@@ -1,0 +1,31 @@
+| Palette # | Palette | Condition | Diagnostic | Pair | Baseline ΔE00 | Palette ΔE00 | Change |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 2 | Veen-Clark candidate 2 | normal | Largest increase | sky_blue / blue | 22.31 | 37.92 | +15.61 |
+| 2 | Veen-Clark candidate 2 | normal | Largest increase | sky_blue / black | 60.95 | 68.99 | +8.04 |
+| 2 | Veen-Clark candidate 2 | normal | Largest increase | yellow / blue | 70.37 | 75.16 | +4.80 |
+| 2 | Veen-Clark candidate 2 | normal | Largest decrease | blue / black | 39.23 | 31.50 | -7.73 |
+| 2 | Veen-Clark candidate 2 | normal | Largest decrease | orange / sky_blue | 53.62 | 50.65 | -2.96 |
+| 2 | Veen-Clark candidate 2 | normal | Largest decrease | sky_blue / yellow | 57.53 | 54.71 | -2.82 |
+| 2 | Veen-Clark candidate 2 | protan100 | Largest increase | sky_blue / blue | 20.75 | 36.03 | +15.28 |
+| 2 | Veen-Clark candidate 2 | protan100 | Largest increase | sky_blue / black | 64.00 | 71.85 | +7.85 |
+| 2 | Veen-Clark candidate 2 | protan100 | Largest increase | blue / reddish_purple | 12.25 | 19.74 | +7.49 |
+| 2 | Veen-Clark candidate 2 | protan100 | Largest decrease | blue / black | 41.34 | 32.85 | -8.50 |
+| 2 | Veen-Clark candidate 2 | protan100 | Largest decrease | sky_blue / yellow | 53.32 | 50.26 | -3.06 |
+| 2 | Veen-Clark candidate 2 | protan100 | Largest decrease | orange / sky_blue | 50.54 | 48.43 | -2.11 |
+| 2 | Veen-Clark candidate 2 | deutan100 | Largest increase | sky_blue / blue | 22.45 | 38.57 | +16.12 |
+| 2 | Veen-Clark candidate 2 | deutan100 | Largest increase | sky_blue / black | 58.62 | 66.62 | +8.00 |
+| 2 | Veen-Clark candidate 2 | deutan100 | Largest increase | blue / reddish_purple | 25.25 | 32.03 | +6.78 |
+| 2 | Veen-Clark candidate 2 | deutan100 | Largest decrease | blue / black | 38.23 | 31.06 | -7.18 |
+| 2 | Veen-Clark candidate 2 | deutan100 | Largest decrease | orange / sky_blue | 54.26 | 51.11 | -3.15 |
+| 2 | Veen-Clark candidate 2 | deutan100 | Largest decrease | sky_blue / yellow | 56.35 | 53.84 | -2.51 |
+| 2 | Veen-Clark candidate 2 | tritan100 | Largest increase | sky_blue / blue | 19.95 | 35.08 | +15.13 |
+| 2 | Veen-Clark candidate 2 | tritan100 | Largest increase | bluish_green / blue | 12.40 | 21.43 | +9.03 |
+| 2 | Veen-Clark candidate 2 | tritan100 | Largest increase | sky_blue / black | 63.63 | 70.81 | +7.18 |
+| 2 | Veen-Clark candidate 2 | tritan100 | Largest decrease | blue / vermillion | 65.67 | 53.47 | -12.20 |
+| 2 | Veen-Clark candidate 2 | tritan100 | Largest decrease | blue / black | 41.46 | 33.20 | -8.25 |
+| 2 | Veen-Clark candidate 2 | tritan100 | Largest decrease | sky_blue / yellow | 39.53 | 37.90 | -1.63 |
+| 2 | Veen-Clark candidate 2 | grayscale | Largest increase | sky_blue / blue | 21.62 | 37.43 | +15.81 |
+| 2 | Veen-Clark candidate 2 | grayscale | Largest increase | orange / blue | 22.20 | 33.09 | +10.89 |
+| 2 | Veen-Clark candidate 2 | grayscale | Largest increase | yellow / blue | 34.37 | 45.02 | +10.65 |
+| 2 | Veen-Clark candidate 2 | grayscale | Largest decrease | blue / black | 32.84 | 24.75 | -8.09 |
+| 2 | Veen-Clark candidate 2 | grayscale | Largest decrease | sky_blue / yellow | 13.42 | 8.59 | -4.83 |

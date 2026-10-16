@@ -26,9 +26,9 @@ from reportlab.platypus import (
 )
 
 ROOT = Path(__file__).resolve().parents[1]
-AUDIT = ROOT / "reports" / "veen-clark-palettebench-v0.1.0"
-COMPARISON = ROOT / "reports" / "palettebench-v0.1.0"
-DEFAULT_OUTPUT = ROOT / "output" / "pdf" / "veen-clark-palette-report.pdf"
+AUDIT = ROOT / "reports" / "veen-clark-candidate-2-audit"
+COMPARISON = ROOT / "reports" / "veen-clark-candidate-2-comparison"
+DEFAULT_OUTPUT = ROOT / "output" / "pdf" / "veen-clark-palette-0.1.0-report.pdf"
 
 PAGE_WIDTH, PAGE_HEIGHT = A4
 MARGIN = 17 * mm
@@ -107,7 +107,7 @@ def page_chrome(pdf: canvas.Canvas, document: SimpleDocTemplate) -> None:
     pdf.line(MARGIN, PAGE_HEIGHT - 12 * mm, PAGE_WIDTH - MARGIN, PAGE_HEIGHT - 12 * mm)
     pdf.setFont("Helvetica", 7.5)
     pdf.setFillColor(colors.HexColor("#4A5962"))
-    pdf.drawString(MARGIN, PAGE_HEIGHT - 9 * mm, "Veen-Clark candidate v0.1 - complete PaletteBench report")
+    pdf.drawString(MARGIN, PAGE_HEIGHT - 9 * mm, "Veen-Clark 0.1.0 - PaletteBench evaluation")
     pdf.drawRightString(PAGE_WIDTH - MARGIN, 9 * mm, f"Page {document.page}")
     pdf.restoreState()
 
@@ -129,19 +129,20 @@ def build_story() -> list:
     story: list = [
         Spacer(1, 21 * mm),
         Paragraph("Veen-Clark palette", STYLES["Title"]),
-        Paragraph("Complete candidate v0.1 computational audit", STYLES["Subtitle"]),
+        Paragraph("Version 0.1.0 evaluation (candidate 2)", STYLES["Subtitle"]),
         Spacer(1, 8 * mm),
-        figure(AUDIT / "figures" / "palette_normal.png", "Candidate palette in normal sRGB.", 65 * mm),
+        figure(AUDIT / "figures" / "palette_normal.png", "Version 0.1.0 colours, evaluated as candidate 2, in normal sRGB.", 65 * mm),
         Spacer(1, 8 * mm),
         body(
-            "An experimental Okabe-Ito derivative by Roland J. Veen and Charlie Clark. "
+            "An Okabe-Ito derivative by Roland J. Veen and Charlie Clark. "
             "Sky blue is lightened and blue is darkened so the pair can represent related "
-            "subgroups in scientific scatter and bar charts."
+            "subgroups in scientific scatter and bar charts. Yellow is updated to #F5E600. "
+            "The archived figures retain their original candidate 2 labels."
         ),
         Spacer(1, 3 * mm),
         body(
-            "Status: candidate. The report presents transparent computational evidence, "
-            "not a universal accessibility certification or participant validation."
+            "Version 0.1.0, approved from candidate 2 on 16 October 2026. This report compares colour-difference metrics for the "
+            "candidate and Okabe-Ito palettes."
         ),
         Spacer(1, 8 * mm),
         body(
@@ -150,9 +151,9 @@ def build_story() -> list:
             "CSV/JSON data, and individual vector figures accompany this PDF in the repository."
         ),
         PageBreak(),
-        heading("Executive findings"),
+        heading("Results"),
         body(
-            "The intended sky-blue/blue subgroup pair gains substantial modelled separation "
+            "The intended sky-blue/blue subgroup pair has greater modelled separation "
             "relative to Okabe-Ito under every standard reported condition: normal, protan "
             "100%, deutan 100%, tritan 100%, and grayscale."
         ),
@@ -172,14 +173,14 @@ def build_story() -> list:
         Spacer(1, 5 * mm),
         body(
             "The whole-palette result is mixed. The normal-vision 10th percentile rises by "
-            "2.73 Delta E00 and the protan-100% minimum rises by 2.92, but darkening blue "
+            "2.73 Delta E00 and the protan-100% minimum rises by 3.56, but darkening blue "
             "reduces separation from black and produces the largest loss against vermillion "
             "under tritan 100% (-12.20 Delta E00)."
         ),
         Spacer(1, 6 * mm),
         figure(
             ROOT / "examples" / "blue-subgroups.png",
-            "Figure 1. Related blue subgroups shown with colour as the only distinguishing visual encoding.",
+            "Figure 1. Synthetic data illustrating the two blues with circular markers and solid bar fills.",
             100 * mm,
         ),
         PageBreak(),
@@ -193,7 +194,7 @@ def build_story() -> list:
         Spacer(1, 5 * mm),
         body(
             "Positive changes indicate greater modelled separation; negative changes indicate "
-            "reduced modelled separation. No condition is collapsed into an overall score."
+            "reduced modelled separation. Zero change means the minimum separation is unchanged."
         ),
         PageBreak(),
         heading("Methods and assumptions"),
@@ -315,8 +316,7 @@ def build_story() -> list:
         heading("Grouped blue-family analysis"),
         body(
             "The YAML declares sky blue and blue as one visual family. With two members, the "
-            "within-group distribution contains their single pair and directly tracks the "
-            "intended hierarchical encoding."
+            "group contains one colour pair: sky blue and blue."
         ),
         Spacer(1, 5 * mm),
         styled_table(group_table, [42 * mm, 24 * mm, 20 * mm, 27 * mm, 27 * mm, 27 * mm]),
@@ -373,7 +373,7 @@ def build(output: Path) -> None:
         rightMargin=MARGIN,
         topMargin=18 * mm,
         bottomMargin=16 * mm,
-        title="Veen-Clark palette: complete candidate v0.1 computational audit",
+        title="Veen-Clark palette: version 0.1.0 evaluation",
         author="Roland J. Veen and Charlie Clark",
         subject="PaletteBench audit and Okabe-Ito comparison",
     )

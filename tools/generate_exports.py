@@ -9,10 +9,10 @@ from pathlib import Path
 import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
-SOURCE = ROOT / "palettes" / "veen-clark-candidate.yaml"
+SOURCE = ROOT / "palettes" / "veen-clark.yaml"
 EXPORTS = ROOT / "exports"
 HEADER = (
-    "Generated from palettes/veen-clark-candidate.yaml by "
+    "Generated from palettes/veen-clark.yaml by "
     "tools/generate_exports.py; do not edit."
 )
 HEX_PATTERN = re.compile(r"^#[0-9A-Fa-f]{6}$")
