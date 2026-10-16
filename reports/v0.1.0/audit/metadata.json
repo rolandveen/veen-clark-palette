@@ -1,27 +1,27 @@
 {
   "palettebench_version": "0.1.0",
-  "python_version": "3.12.14",
+  "python_version": "3.11.16",
   "dependencies": {
-    "numpy": "2.5.4",
+    "numpy": "2.4.6",
     "matplotlib": "3.11.2",
     "PyYAML": "6.0.3",
     "colorspacious": "1.1.2",
     "colour-science": "0.4.7",
-    "scipy": "1.18.1"
+    "scipy": "1.17.1"
   },
   "platform": "macOS-26.6.2-arm64-arm-64bit",
   "input_palette": "veen-clark.yaml",
   "input_copy": "inputs/01-veen-clark.yaml",
-  "input_sha256": "b22d70f2358ec1174d3419bd880128eb929063add2013ee91c99f60b7cfaecf6",
+  "input_sha256": "c0dea2592770ce1867ffdde6c9d169d09e60c531ba0a94994ca0031d69ac88ee",
   "inputs": [
     {
       "name": "Veen-Clark palette",
       "original_path": "veen-clark.yaml",
       "copied_file": "inputs/01-veen-clark.yaml",
-      "sha256": "b22d70f2358ec1174d3419bd880128eb929063add2013ee91c99f60b7cfaecf6"
+      "sha256": "c0dea2592770ce1867ffdde6c9d169d09e60c531ba0a94994ca0031d69ac88ee"
     }
   ],
-  "generated_utc": "2026-10-16T12:16:23.900444+00:00",
+  "generated_utc": "2026-10-16T14:36:12.123287+00:00",
   "configuration": {
     "severities": [
       20,

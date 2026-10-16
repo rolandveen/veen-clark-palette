@@ -190,7 +190,7 @@ def build_story() -> list:
         figure(AUDIT / "figures" / "palette_normal.png", "Veen-Clark palette in normal sRGB.", 65 * mm),
         Spacer(1, 8 * mm),
         body(
-            "An Okabe-Ito derivative by Roland J. Veen and Charlie Clark. "
+            "An Okabe-Ito derivative by Roland J. Veen and Charlie J. Clark. "
             "Sky blue is lightened and blue is darkened so the pair can represent related "
             "subgroups in scientific scatter and bar charts. "
             f"The palette uses yellow {HEX['yellow']}."
@@ -434,7 +434,7 @@ def build(output: Path) -> None:
         topMargin=18 * mm,
         bottomMargin=16 * mm,
         title=f"Veen-Clark palette: version {RELEASE['version']} evaluation",
-        author="Roland J. Veen and Charlie Clark",
+        author="Roland J. Veen and Charlie J. Clark",
         subject="PaletteBench audit and Okabe-Ito comparison",
     )
     document.build(

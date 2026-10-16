@@ -7,7 +7,7 @@ description: >
   darker so the pair can encode related subgroups in scientific figures.
   Yellow is revised to #F5E600 following informal presentation feedback.
 source:
-  authors: [Roland J. Veen, Charlie Clark]
+  authors: [Roland J. Veen, Charlie J. Clark]
   url: https://github.com/rolandveen/veen-clark-palette
   note: Not yet validated in a controlled participant study.
 colors:

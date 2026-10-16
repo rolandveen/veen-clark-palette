@@ -3,7 +3,7 @@
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23418260.svg)](https://doi.org/10.5281/zenodo.23418260)
 
 An Okabe–Ito-derived categorical colour palette for scientific
-figures by Roland J. Veen and Charlie Clark. The palette preserves five
+figures by Roland J. Veen and Charlie J. Clark. The palette preserves five
 Okabe–Ito colours and updates yellow to `#F5E600`. It separates two related
 subgroups by making sky blue lighter and blue darker.
 
@@ -180,7 +180,7 @@ PaletteBench release used.
 For convenience, copy this plain-text citation:
 
 ```text
-Veen RJ, Clark C. Veen-Clark palette [software]. Version 0.1.0. 2026.
+Veen RJ, Clark CJ. Veen-Clark palette [software]. Version 0.1.0. 2026.
 https://doi.org/10.5281/zenodo.23418261
 ```
 
@@ -215,4 +215,4 @@ Where AI tools are employed as part of the scientific methodology itself, rather
 
 ## License
 
-BSD 3-Clause. Copyright © 2026 Roland J. Veen and Charlie Clark.
+BSD 3-Clause. Copyright © 2026 Roland J. Veen and Charlie J. Clark.
