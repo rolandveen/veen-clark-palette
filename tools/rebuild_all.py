@@ -49,7 +49,7 @@ def rebuild() -> None:
 
         # Validation happens before any committed output is touched. Keep backups
         # until every replacement succeeds, and restore them on a normal failure.
-        targets = ["palette.json", "exports", "reports/v0.1.0",
+        targets = ["palette.json", "CITATION.ris", "exports", "reports/v0.1.0",
                    "examples/blue-subgroups.svg", "examples/blue-subgroups.png",
                    "output/pdf/veen-clark-palette-0.1.0-report.pdf"]
         backup = Path(temporary) / "backup"

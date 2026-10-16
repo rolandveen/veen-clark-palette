@@ -154,7 +154,8 @@ class PaletteTest(unittest.TestCase):
             module.ROOT = Path(temporary)
             module.EXPORTS = module.ROOT / "exports"
             module.main()
-            for path in [module.ROOT / "palette.json", *module.EXPORTS.iterdir()]:
+            for path in [module.ROOT / "palette.json", module.ROOT / "CITATION.ris",
+                         *module.EXPORTS.iterdir()]:
                 self.assertEqual(path.read_bytes(), (ROOT / path.relative_to(module.ROOT)).read_bytes())
 
     def test_readme_links_resolve(self):

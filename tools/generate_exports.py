@@ -1,4 +1,4 @@
-"""Generate JSON and language-specific definitions from the canonical YAML."""
+"""Generate palette exports and an RIS citation from the canonical YAML sources."""
 
 from __future__ import annotations
 
@@ -10,6 +10,7 @@ import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT / "palettes" / "veen-clark.yaml"
+CITATION_SOURCE = ROOT / "CITATION.cff"
 EXPORTS = ROOT / "exports"
 HEADER = (
     "Generated from palettes/veen-clark.yaml by "
@@ -150,6 +151,21 @@ def main() -> None:
     ]
     css += ["}", ""]
     (EXPORTS / "veen-clark.css").write_text("\n".join(css), encoding="utf-8")
+
+    citation = yaml.safe_load(CITATION_SOURCE.read_text(encoding="utf-8"))
+    if citation["version"] != data["version"]:
+        raise ValueError("Citation version must match the palette version")
+    date = str(citation["date-released"])
+    ris = ["TY  - COMP"]
+    ris += [f"AU  - {author['family-names']}, {author['given-names']}"
+            for author in citation["authors"]]
+    ris += [f"TI  - {citation['title']}", f"PY  - {date[:4]}",
+            f"DA  - {date.replace('-', '/')}", f"ET  - {citation['version']}",
+            f"UR  - {citation['repository-code']}"]
+    if citation.get("doi"):
+        ris.append(f"DO  - {citation['doi']}")
+    ris += ["ER  -", ""]
+    (ROOT / "CITATION.ris").write_text("\n".join(ris), encoding="utf-8")
 
 
 if __name__ == "__main__":

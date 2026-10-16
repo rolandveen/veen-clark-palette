@@ -137,6 +137,18 @@ If you use this palette, cite this repository using
 [`CITATION.cff`](CITATION.cff), cite PaletteBench for the exact release used,
 and retain the Okabe–Ito and Wong provenance.
 
+For convenience, copy this plain-text citation:
+
+```text
+Veen RJ, Clark C. Veen-Clark palette [software]. Version 0.1.0. 2026.
+Available from: https://github.com/rolandveen/veen-clark-palette
+```
+
+For EndNote, download [`CITATION.ris`](CITATION.ris) and select
+[Reference Manager (RIS)](https://docs.endnote.com/docs/endnote/2025/v1/macos/en/content/08import/import_options.htm)
+as the import option. The file is generated from `CITATION.cff` and includes
+the authors, title, version, year and repository URL.
+
 ## Responsible use of AI
 
 This repository is the product of human-led research and development. The **conceptualisation, research objectives, scientific contributions, methodological choices, experimental design, interpretation of results, and conclusions** are determined by the human authors, who retain full intellectual and scientific responsibility for the work.
