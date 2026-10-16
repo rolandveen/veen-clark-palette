@@ -1,9 +1,5 @@
 # Reproducibility
 
-All generation and validation use ordinary Python scripts and open-source
-libraries. No AI model, AI service, account or API key is required. Network
-access is needed only for the initial dependency installation.
-
 ## Sources and generated files
 
 `palettes/veen-clark.yaml` defines palette identity, version, colour order,

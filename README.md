@@ -48,7 +48,6 @@ from exports.veen_clark import HEX, NAMES
 colours = dict(zip(NAMES, HEX))
 ```
 
-Generation and validation require no AI service or API key.
 Use Python 3.12 and Git:
 
 ```bash
