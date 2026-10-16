@@ -6,6 +6,8 @@ message: >-
 title: "Veen-Clark palette"
 type: software
 version: 0.1.0
+doi: "10.5281/zenodo.23418261"
+url: "https://doi.org/10.5281/zenodo.23418261"
 date-released: 2026-10-16
 authors:
   - family-names: Veen

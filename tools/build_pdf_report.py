@@ -6,6 +6,8 @@ import argparse
 import csv
 import json
 import re
+
+import yaml
 from html import escape
 from pathlib import Path
 
@@ -38,6 +40,7 @@ CONTENT_WIDTH = PAGE_WIDTH - 2 * MARGIN
 CONTENT_HEIGHT = PAGE_HEIGHT - 2 * MARGIN
 
 RELEASE = json.loads((ROOT / "palette.json").read_text(encoding="utf-8"))
+CITATION = yaml.safe_load((ROOT / "CITATION.cff").read_text(encoding="utf-8"))
 HEX = {colour["name"]: colour["hex"] for colour in RELEASE["colors"]}
 PALETTE = [colors.HexColor(HEX[name]) for name in ("blue", "sky_blue", "orange")]
 
@@ -181,6 +184,8 @@ def build_story() -> list:
         Spacer(1, 21 * mm),
         Paragraph("Veen-Clark palette", STYLES["Title"]),
         Paragraph(f"Version {RELEASE['version']} evaluation", STYLES["Subtitle"]),
+        body(f'Archive DOI: <link href="https://doi.org/{CITATION["doi"]}">'
+             f'{CITATION["doi"]}</link>'),
         Spacer(1, 8 * mm),
         figure(AUDIT / "figures" / "palette_normal.png", "Veen-Clark palette in normal sRGB.", 65 * mm),
         Spacer(1, 8 * mm),

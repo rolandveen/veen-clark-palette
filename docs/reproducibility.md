@@ -7,11 +7,15 @@ values and groups. `tools/`, the Python example source, README, citation and
 reference files are maintained sources.
 
 Generated outputs are `palette.json`, `CITATION.ris`, `REFERENCES.ris`, `exports/`,
-the example PNG/SVG, `reports/v0.1.0/`, and `output/pdf/veen-clark-palette-0.1.0-report.pdf`.
+the README swatches in `docs/swatches/`, the example PNG/SVG, `reports/v0.1.0/`, and `output/pdf/veen-clark-palette-0.1.0-report.pdf`.
 Reports contain exact YAML input copies, hashes, configuration, dependency
 versions, full-precision data, tables and figures. Generated data are not edited
 by hand. `CITATION.ris` contains only the palette citation from `CITATION.cff`.
 `REFERENCES.ris` contains all supporting references from `REFERENCES.bib`.
+The README badge and general archive link use the all-versions DOI
+`10.5281/zenodo.23418260`. Citations for version 0.1.0, its release notes and
+PDF use the version DOI `10.5281/zenodo.23418261`. The archived release
+remains unchanged by these subsequent documentation updates.
 Users are asked to cite Veen–Clark and acknowledge its Okabe–Ito origins;
 citing the original work is encouraged where relevant, rather than required.
 The PDF reads metrics from the generated CSV files and imports the responsible

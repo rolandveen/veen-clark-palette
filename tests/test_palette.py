@@ -156,7 +156,8 @@ class PaletteTest(unittest.TestCase):
             module.main()
             for path in [module.ROOT / "palette.json", module.ROOT / "CITATION.ris",
                          module.ROOT / "REFERENCES.ris",
-                         *module.EXPORTS.iterdir()]:
+                         *module.EXPORTS.iterdir(),
+                         *(module.ROOT / "docs/swatches").glob("*.svg")]:
                 self.assertEqual(path.read_bytes(), (ROOT / path.relative_to(module.ROOT)).read_bytes())
 
     def test_readme_links_resolve(self):
@@ -195,6 +196,9 @@ class PaletteTest(unittest.TestCase):
                 self.assertIn(" ".join(plain.split()), normalized)
         digest = hashlib.sha256((ROOT / "palettes/veen-clark.yaml").read_bytes()).hexdigest()
         self.assertIn(digest, text)
+        citation = yaml.safe_load((ROOT / "CITATION.cff").read_text())
+        self.assertIn(citation["doi"], text)
+        self.assertIn(f"https://doi.org/{citation['doi']}", links)
         with tempfile.TemporaryDirectory() as temporary:
             output = Path(temporary) / "report.pdf"
             command = [sys.executable, str(ROOT / "tools/build_pdf_report.py"), "--output", str(output)]
@@ -210,10 +214,14 @@ class PaletteTest(unittest.TestCase):
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
         citation = yaml.safe_load((ROOT / "CITATION.cff").read_text(encoding="utf-8"))
         self.assertEqual(citation["version"], self.source["version"])
+        self.assertIn("[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23418260.svg)]"
+                      "(https://doi.org/10.5281/zenodo.23418260)", readme)
+        self.assertIn(f"https://doi.org/{citation['doi']}", readme)
         palette_ris = (ROOT / "CITATION.ris").read_text(encoding="utf-8")
         reference_ris = (ROOT / "REFERENCES.ris").read_text(encoding="utf-8")
         bibliography = (ROOT / "REFERENCES.bib").read_text(encoding="utf-8")
         identifiers = re.findall(r"@\w+\{([^,]+),", bibliography)
+        self.assertIn(f"DO  - {citation['doi']}\n", palette_ris)
         self.assertEqual(palette_ris.count("TY  - "), 1)
         self.assertEqual(reference_ris.count("TY  - "), len(identifiers))
         self.assertIn(f"TI  - {citation['title']}\n", palette_ris)

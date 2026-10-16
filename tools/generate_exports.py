@@ -72,6 +72,14 @@ def main() -> None:
     rgb = [rgb_from_hex(value) for value in hexes]
     triplets = [normalized(value) for value in rgb]
     EXPORTS.mkdir(exist_ok=True)
+    swatches = ROOT / "docs" / "swatches"
+    swatches.mkdir(parents=True, exist_ok=True)
+    for color, value in zip(colors, hexes):
+        (swatches / f"{color['id']}.svg").write_text(
+            '<svg xmlns="http://www.w3.org/2000/svg" width="40" height="20" viewBox="0 0 40 20">'
+            f'<rect x="0.5" y="0.5" width="39" height="19" rx="2" fill="{value}" '
+            'stroke="#767676"/></svg>\n', encoding="utf-8"
+        )
 
     # JSON is deliberately derived rather than hand-maintained so downstream
     # tools that cannot read YAML still receive exactly the benchmarked values.

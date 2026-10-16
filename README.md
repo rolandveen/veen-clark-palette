@@ -1,5 +1,7 @@
 # Veen–Clark palette
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23418260.svg)](https://doi.org/10.5281/zenodo.23418260)
+
 An Okabe–Ito-derived categorical colour palette for scientific
 figures by Roland J. Veen and Charlie Clark. The palette preserves five
 Okabe–Ito colours and updates yellow to `#F5E600`. It separates two related
@@ -21,16 +23,16 @@ has not been validated in a controlled participant study.
 
 ## Colours
 
-| Name | Hex | RGB (8-bit) | RGB triplet (0–1) |
-|---|---:|---:|---:|
-| Orange | `#E69F00` | `(230, 159, 0)` | `(0.901961, 0.623529, 0.000000)` |
-| Sky blue | `#7CC7F2` | `(124, 199, 242)` | `(0.486275, 0.780392, 0.949020)` |
-| Bluish green | `#009E73` | `(0, 158, 115)` | `(0.000000, 0.619608, 0.450980)` |
-| Yellow | `#F5E600` | `(245, 230, 0)` | `(0.960784, 0.901961, 0.000000)` |
-| Blue | `#005A8D` | `(0, 90, 141)` | `(0.000000, 0.352941, 0.552941)` |
-| Vermillion | `#D55E00` | `(213, 94, 0)` | `(0.835294, 0.368627, 0.000000)` |
-| Reddish purple | `#CC79A7` | `(204, 121, 167)` | `(0.800000, 0.474510, 0.654902)` |
-| Black | `#000000` | `(0, 0, 0)` | `(0.000000, 0.000000, 0.000000)` |
+| Name | Colour | Hex | RGB (8-bit) | RGB triplet (0–1) |
+|---|:---:|---:|---:|---:|
+| Orange | ![Orange swatch](docs/swatches/orange.svg) | `#E69F00` | `(230, 159, 0)` | `(0.901961, 0.623529, 0.000000)` |
+| Sky blue | ![Sky blue swatch](docs/swatches/sky_blue.svg) | `#7CC7F2` | `(124, 199, 242)` | `(0.486275, 0.780392, 0.949020)` |
+| Bluish green | ![Bluish green swatch](docs/swatches/bluish_green.svg) | `#009E73` | `(0, 158, 115)` | `(0.000000, 0.619608, 0.450980)` |
+| Yellow | ![Yellow swatch](docs/swatches/yellow.svg) | `#F5E600` | `(245, 230, 0)` | `(0.960784, 0.901961, 0.000000)` |
+| Blue | ![Blue swatch](docs/swatches/blue.svg) | `#005A8D` | `(0, 90, 141)` | `(0.000000, 0.352941, 0.552941)` |
+| Vermillion | ![Vermillion swatch](docs/swatches/vermillion.svg) | `#D55E00` | `(213, 94, 0)` | `(0.835294, 0.368627, 0.000000)` |
+| Reddish purple | ![Reddish purple swatch](docs/swatches/reddish_purple.svg) | `#CC79A7` | `(204, 121, 167)` | `(0.800000, 0.474510, 0.654902)` |
+| Black | ![Black swatch](docs/swatches/black.svg) | `#000000` | `(0, 0, 0)` | `(0.000000, 0.000000, 0.000000)` |
 
 The order follows the commonly reproduced Okabe–Ito palette. The two blues
 form a declared `blue_family` for related subgroups in scatter and bar charts.
@@ -144,7 +146,10 @@ Masataka Okabe and Kei Ito. Bang Wong brought the palette to a broad scientific
 audience in a 2011 *Nature Methods* column; a 2023 author correction added the
 missing link to the Okabe–Ito presentation. See [`REFERENCES.bib`](REFERENCES.bib).
 
-If you use the Veen–Clark palette, please cite this repository using
+The [all-versions archive DOI](https://doi.org/10.5281/zenodo.23418260) follows the latest published release.
+Version 0.1.0 is archived on Zenodo at [doi:10.5281/zenodo.23418261](https://doi.org/10.5281/zenodo.23418261).
+
+If you use the Veen–Clark palette, please cite this archive using
 [`CITATION.cff`](CITATION.cff). When describing the palette, acknowledge that it
 is derived from Okabe–Ito. We encourage citing the
 [original Okabe–Ito work](#references) where relevant; a second citation is
@@ -155,7 +160,7 @@ For convenience, copy this plain-text citation:
 
 ```text
 Veen RJ, Clark C. Veen-Clark palette [software]. Version 0.1.0. 2026.
-Available from: https://github.com/rolandveen/veen-clark-palette
+https://doi.org/10.5281/zenodo.23418261
 ```
 
 For EndNote, download [`CITATION.ris`](CITATION.ris) and select
