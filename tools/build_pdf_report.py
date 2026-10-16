@@ -5,6 +5,8 @@ from __future__ import annotations
 import argparse
 import csv
 import json
+import re
+from html import escape
 from pathlib import Path
 
 from PIL import Image as PILImage
@@ -116,6 +118,28 @@ def heading(text: str, level: int = 1) -> Paragraph:
 
 def body(text: str) -> Paragraph:
     return Paragraph(text, STYLES["BodyText"])
+
+
+def readme_section(title: str) -> list[str]:
+    """Read shared disclosure/reference paragraphs from their maintained source."""
+    readme = (ROOT / "README.md").read_text(encoding="utf-8")
+    marker = f"## {title}\n"
+    if readme.count(marker) != 1:
+        raise ValueError(f"Expected one README section: {title}")
+    section = readme.split(marker, 1)[1].split("\n## ", 1)[0].strip()
+    if not section:
+        raise ValueError(f"Empty README section: {title}")
+    return [" ".join(paragraph.splitlines()) for paragraph in section.split("\n\n")]
+
+
+def markdown_paragraph(text: str) -> Paragraph:
+    """Render the small Markdown subset used by the shared README sections."""
+    text = escape(text, quote=True)
+    text = re.sub(r"\[([^\]]+)\]\((https://[^\s)]+)\)",
+                  r'<a href="\2" color="#005A8D"><u>\1</u></a>', text)
+    text = re.sub(r"\*\*(.+?)\*\*", r"<b>\1</b>", text)
+    text = re.sub(r"\*(.+?)\*", r"<i>\1</i>", text)
+    return body(text)
 
 
 def build_story() -> list:
@@ -385,19 +409,12 @@ def build_story() -> list:
             f"Simulation: {metadata['configuration']['simulation']}."
         ),
         Spacer(1, 7 * mm),
+        PageBreak(),
+        heading("Responsible use of AI"),
+        *[markdown_paragraph(text) for text in readme_section("Responsible use of AI")],
+        Spacer(1, 7 * mm),
         heading("References", 2),
-        body(
-            "Okabe, M. and Ito, K. (2002). Color Universal Design: How to make figures and "
-            "presentations that are friendly to colorblind people."
-        ),
-        body(
-            "Wong, B. (2011). Points of view: Color blindness. Nature Methods 8, 441. "
-            "doi:10.1038/nmeth.1618; corrected 2023, doi:10.1038/s41592-023-01974-0."
-        ),
-        body(
-            "Veen, R. J. (2026). PaletteBench 0.1.0. Zenodo. "
-            "doi:10.5281/zenodo.23071831."
-        ),
+        *[markdown_paragraph(text) for text in readme_section("References")],
     ]
     return story
 

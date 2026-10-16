@@ -168,12 +168,29 @@ class PaletteTest(unittest.TestCase):
         committed = ROOT / "output/pdf/veen-clark-palette-0.1.0-report.pdf"
         reader = PdfReader(committed)
         self.assertFalse(reader.is_encrypted)
-        self.assertEqual(len(reader.pages), 21)
+        self.assertEqual(len(reader.pages), 22)
         text = "\n".join(page.extract_text() for page in reader.pages)
         for title in ("Version 0.1.0 evaluation", "Yellow in context", "Grouped blue-family analysis", "References"):
             self.assertIn(title, text)
         for colour in self.source["colors"]:
             self.assertIn(colour["hex"], text)
+        normalized = " ".join(text.split())
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+        self.assertLess(text.index("Responsible use of AI"), text.rindex("References"))
+        links = set()
+        for page in reader.pages:
+            for annotation in page.get("/Annots", []):
+                action = annotation.get_object().get("/A", {})
+                if action.get("/S") == "/URI":
+                    links.add(str(action["/URI"]))
+        for section in ("Responsible use of AI", "References"):
+            content = readme.split(f"## {section}\n", 1)[1].split("\n## ", 1)[0].strip()
+            for url in re.findall(r"\]\((https://[^)]+)\)", content):
+                self.assertIn(url, links)
+            for paragraph in content.split("\n\n"):
+                plain = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", paragraph)
+                plain = plain.replace("**", "").replace("*", "")
+                self.assertIn(" ".join(plain.split()), normalized)
         digest = hashlib.sha256((ROOT / "palettes/veen-clark.yaml").read_bytes()).hexdigest()
         self.assertIn(digest, text)
         with tempfile.TemporaryDirectory() as temporary:

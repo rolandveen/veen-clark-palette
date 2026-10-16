@@ -127,16 +127,6 @@ Both subgroups use circular markers and solid bar fills. The example uses
 synthetic data to illustrate the colours; it is not a test of discriminability.
 The reproducible source is [`examples/blue_subgroups.py`](examples/blue_subgroups.py).
 
-## Responsible use of AI
-
-This repository is the product of human-led research and development. The **conceptualisation, research objectives, scientific contributions, methodological choices, experimental design, interpretation of results, and conclusions** are determined by the human authors, who retain full intellectual and scientific responsibility for the work.
-
-Generative artificial intelligence (AI) tools, such as ChatGPT and Codex, may be employed as **assistants** in software development and documentation. Their contributions may include implementing human-defined designs, suggesting or refactoring code, debugging, developing tests, improving documentation, exploring technical alternatives, and providing critical feedback. AI-generated suggestions are treated as provisional and are subject to human review, modification, and appropriate verification before adoption.
-
-**AI assistance does not constitute scientific authorship or transfer responsibility.** The human authors remain accountable for the correctness, originality, scientific integrity, reproducibility, attribution, licensing, and maintenance of the work. AI-generated outputs are not regarded as independent scientific evidence, and AI systems are not credited as authors or co-authors.
-
-Where AI tools are employed as part of the scientific methodology itself, rather than merely as development assistants, their role is documented separately as appropriate to ensure transparency and reproducibility.
-
 ## Provenance and citation
 
 This palette is derived from the colour-universal-design palette developed by
@@ -147,6 +137,26 @@ missing link to the Okabe–Ito presentation. See [`REFERENCES.bib`](REFERENCES.
 If you use this palette, cite this repository using
 [`CITATION.cff`](CITATION.cff), cite PaletteBench for the exact release used,
 and retain the Okabe–Ito and Wong provenance.
+
+## Responsible use of AI
+
+This repository is the product of human-led research and development. The **conceptualisation, research objectives, scientific contributions, methodological choices, experimental design, interpretation of results, and conclusions** are determined by the human authors, who retain full intellectual and scientific responsibility for the work.
+
+Generative artificial intelligence (AI) tools, such as ChatGPT and Codex, may be employed as **assistants** in software development and documentation. Their contributions may include implementing human-defined designs, suggesting or refactoring code, debugging, developing tests, improving documentation, exploring technical alternatives, and providing critical feedback. AI-generated suggestions are treated as provisional and are subject to human review, modification, and appropriate verification before adoption.
+
+**AI assistance does not constitute scientific authorship or transfer responsibility.** The human authors remain accountable for the correctness, originality, scientific integrity, reproducibility, attribution, licensing, and maintenance of the work. AI-generated outputs are not regarded as independent scientific evidence, and AI systems are not credited as authors or co-authors.
+
+Where AI tools are employed as part of the scientific methodology itself, rather than merely as development assistants, their role is documented separately as appropriate to ensure transparency and reproducibility.
+
+## References
+
+1. Okabe, M., and Ito, K. (2002). [How to make figures and presentations that are friendly to color blind people](https://jfly.uni-koeln.de/html/color_blind/). [Original brochure (PDF)](https://jfly.uni-koeln.de/html/manuals/pdf/color_blind.pdf).
+
+2. Wong, B. (2011). [Points of view: Color blindness](https://doi.org/10.1038/nmeth.1618). *Nature Methods*, **8**(6), 441.
+
+3. Wong, B. (2023). [Author Correction: Points of view: Color blindness](https://doi.org/10.1038/s41592-023-01974-0). *Nature Methods*, **20**(8), 1266.
+
+4. Veen, R. J. (2026). [PaletteBench (v0.1.0)](https://doi.org/10.5281/zenodo.23071831) [Software]. Zenodo. [Source code for v0.1.0](https://github.com/rolandveen/palettebench/tree/v0.1.0).
 
 ## License
 

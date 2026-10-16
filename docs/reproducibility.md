@@ -14,7 +14,8 @@ Generated outputs are `palette.json`, `exports/`, the example PNG/SVG,
 `reports/v0.1.0/`, and `output/pdf/veen-clark-palette-0.1.0-report.pdf`.
 Reports contain exact YAML input copies, hashes, configuration, dependency
 versions, full-precision data, tables and figures. Generated data are not edited
-by hand. The PDF reads metrics from the generated CSV files.
+by hand. The PDF reads metrics from the generated CSV files and imports the responsible
+AI use statement and linked references directly from their README sections.
 
 ## Environment
 
